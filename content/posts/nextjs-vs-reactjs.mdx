@@ -1,0 +1,160 @@
+---
+
+title: "So sánh Next.js và React.js: Nên chọn cái nào cho dự án của bạn?"
+date: "2025-09-14"
+excerpt: "So sánh thực tế giữa Next.js và React.js: kiến trúc, routing, data fetching, SEO, hiệu năng và khi nào nên dùng mỗi công nghệ."
+author: "Blog Admin"
+tags: ["react", "nextjs", "frontend", "ssr", "ssg"]
+series: "Frontend Guide"
+featured: true
+--------------
+
+# So sánh Next.js và React.js: Nên chọn cái nào cho dự án của bạn?
+
+Trong hệ sinh thái React, hai tên thường xuyên so sánh là **React (library)** và **Next.js (framework trên nền React)**. Mục tiêu bài viết này là làm rõ khác biệt cốt lõi, ưu/nhược điểm, và gợi ý khi nào nên dùng React thuần hoặc Next.js.
+
+---
+
+## Tổng quan ngắn
+
+* **React.js**: Thư viện UI để xây dựng component, quản lý state và render UI trên client. React không ép bạn cách tổ chức routing, data fetching hay build — bạn tự chọn thư viện bổ trợ.
+* **Next.js**: Framework full-stack dựa trên React, cung cấp routing file-based, SSR/SSG/ISR, API routes, image optimization, built-in CSS support, và nhiều tiện ích triển khai. Next.js thêm nhiều quy ước (convention) giúp phát triển ứng dụng web nhanh và chuẩn hơn.
+
+---
+
+## So sánh theo tiêu chí
+
+### 1. Routing & cấu trúc dự án
+
+* **React**: Không có routing sẵn; thường dùng `react-router` hoặc các giải pháp tương tự. Project structure hoàn toàn do bạn quyết định.
+* **Next.js**: File-based routing (pages/ hoặc app/ tùy phiên bản). Tự động map file → route, có nested layouts (App Router), rất tiện cho chuẩn hóa dự án.
+
+### 2. Data fetching & rendering (SEO / performance)
+
+* **React**: Client-side rendering (CSR) mặc định — dữ liệu fetch ở client. SEO kém hơn nếu không xử lý thêm (prerender, SSR).
+* **Next.js**:
+
+  * **SSR** (server-side rendering) — render tại server per-request.
+  * **SSG** (static site generation) — build time generation.
+  * **ISR** (Incremental Static Regeneration) — cập nhật page tĩnh sau deploy.
+  * **RSC / App Router** (Next 13+) hỗ trợ Server Components để tối ưu payload và UX.
+    Điều này giúp Next.js vượt trội về SEO và thời gian tải nếu cần.
+
+### 3. API & full-stack
+
+* **React**: Client-only; backend phải là service riêng (Express, Fastify, serverless…). Bạn cần setup API layer thủ công.
+* **Next.js**: Có **API Routes** (hoặc server actions trong App Router) — dễ tạo endpoints nhỏ ngay trong cùng repo (phù hợp cho nhiều app / prototyping).
+
+### 4. Build & deployment
+
+* **React**: Dùng `create-react-app`, Vite, hoặc custom bundler. Triển khai static assets lên Netlify/Vercel/S3+CloudFront...
+* **Next.js**: Build sẵn cho SSR/SSG; deploy dễ dàng lên Vercel (native), hoặc các nền tảng hỗ trợ Node/Edge (Netlify, AWS, Cloud Run…). Có lựa chọn **Edge Runtime** cho latency thấp.
+
+### 5. DX & ecosystem
+
+* **React**: Linh hoạt, nhẹ, học nhanh. Tuy nhiên phải lựa chọn nhiều thư viện (routing, state, forms, i18n).
+* **Next.js**: Nhiều feature “sẵn dùng”: image, analytics (optional), i18n config, API. CLI & conventions giúp on-board team nhanh hơn, nhưng có đường cong học tập nếu bạn chưa quen SSR/Server Components.
+
+### 6. Hiệu năng
+
+* **React**: Rất tốt cho SPA; hiệu năng client phụ thuộc vào cách tối ưu bundle, code splitting.
+* **Next.js**: Thường tốt hơn về First Contentful Paint & SEO thanks to SSR/SSG. Tuy nhiên complexity tăng khi dùng nhiều server logic.
+
+### 7. Khi nào dùng Type nào?
+
+* **React (SPA)**: Ứng dụng dashboard, internal tools, nơi SEO/initial load không quan trọng.
+* **Next.js**: Website marketing, e-commerce, blog, app cần SEO/fast first load, hoặc muốn 1 repo fullstack.
+
+---
+
+## Ví dụ mã ngắn
+
+### React (Vite) — component đơn giản
+
+```jsx
+// src/App.jsx
+import React, { useEffect, useState } from 'react';
+
+export default function App() {
+  const [items, setItems] = useState([]);
+  useEffect(() => {
+    fetch('/api/items').then(r => r.json()).then(setItems);
+  }, []);
+  return (
+    <div>
+      <h1>React App</h1>
+      <ul>{items.map(i => <li key={i.id}>{i.name}</li>)}</ul>
+    </div>
+  );
+}
+```
+
+### Next.js (App Router) — page server component + client component
+
+```tsx
+// app/page.tsx (Server Component)
+import ClientList from './ClientList';
+
+export default async function Page() {
+  const res = await fetch('https://api.example.com/items', { next: { revalidate: 60 } });
+  const items = await res.json();
+  return (
+    <main>
+      <h1>Next.js Page (Server Component)</h1>
+      <ClientList items={items} />
+    </main>
+  );
+}
+
+// app/ClientList.tsx (Client Component)
+'use client'
+import React from 'react';
+export default function ClientList({ items }) {
+  return <ul>{items.map(i => <li key={i.id}>{i.name}</li>)}</ul>;
+}
+```
+
+---
+
+## Ưu & nhược điểm tóm tắt
+
+### React
+
+* Ưu: Linh hoạt, nhẹ, học nhanh, ecosystem lớn.
+* Nhược: Thiếu conventions cho dự án lớn; phải cấu hình SSR/SEO nếu cần.
+
+### Next.js
+
+* Ưu: Fast to market cho ứng dụng web có SEO, routing/SSG/SSR sẵn, API routes, tốt cho team lớn.
+* Nhược: Phức tạp hơn, có "magic" và convention cần học; đôi khi quá nặng cho tiny SPA.
+
+---
+
+## Khi nào chọn cái nào — quy tắc thực tế
+
+* Chọn **React (SPA)** khi:
+
+  * Ứng dụng nội bộ/dashboard.
+  * Bạn cần tối giản, tải nhanh trên client.
+  * Team muốn kiểm soát toàn bộ stack.
+
+* Chọn **Next.js** khi:
+
+  * Bạn cần SEO/fast initial-load (marketing site, e-commerce).
+  * Muốn deploy fullstack nhanh trên Vercel/Edge.
+  * Dự án cần cấu trúc rõ ràng, maintainable cho team lớn.
+
+---
+
+## Lời khuyên & best practices
+
+* Nếu bắt đầu một project mới mà có khả năng phát triển thành sản phẩm public (cần SEO): **bắt đầu với Next.js** để tránh refactor lớn sau này.
+* Nếu bạn chỉ cần prototype hoặc micro-app, **React + Vite** sẽ giúp iterate nhanh.
+* Sử dụng **TypeScript** cho dự án lớn — cả React và Next.js đều hỗ trợ tốt.
+* Thiết lập CI/CD, linting, testing từ đầu để tránh technical debt.
+
+---
+
+## Kết luận
+
+React là nền tảng (toolkit) — còn Next.js là một framework opinionated giúp chuyển từ component → sản phẩm web hoàn chỉnh nhanh hơn với SEO, SSR, API routes và nhiều tiện ích. Không có lựa chọn “tốt nhất” cho mọi tình huống — chỉ có lựa chọn phù hợp với yêu cầu dự án và team của bạn.

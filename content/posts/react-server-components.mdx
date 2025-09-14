@@ -1,0 +1,82 @@
+---
+title: "React Server Components và App Router"
+date: "2024-01-20"
+excerpt: "Tìm hiểu về React Server Components và App Router mới trong Next.js 13+."
+author: "Blog Admin"
+tags: ["react", "nextjs", "server-components"]
+series: "Next.js Tutorial"
+featured: true
+---
+
+# React Server Components và App Router
+
+Next.js 13 đã giới thiệu App Router với React Server Components - một paradigm shift lớn trong React ecosystem.
+
+## Server Components là gì?
+
+Server Components là React components chạy trên server và render thành HTML trước khi gửi về client.
+
+### Ưu điểm
+
+- **Performance**: Giảm bundle size client
+- **SEO**: Content được render sẵn
+- **Data Fetching**: Fetch data trực tiếp trong component
+
+```tsx
+// Server Component
+async function PostList() {
+  const posts = await getPosts() // Có thể access database trực tiếp
+  
+  return (
+    <div>
+      {posts.map(post => (
+        <PostCard key={post.id} post={post} />
+      ))}
+    </div>
+  )
+}
+```
+
+## App Router vs Pages Router
+
+| Feature | Pages Router | App Router |
+|---------|-------------|------------|
+| File-based routing | ✅ | ✅ |
+| Server Components | ❌ | ✅ |
+| Nested Layouts | ❌ | ✅ |
+| Loading UI | ❌ | ✅ |
+| Error Boundaries | ❌ | ✅ |
+
+## Folder Structure
+
+```
+app/
+├── layout.tsx      # Root layout
+├── page.tsx        # Homepage
+├── loading.tsx     # Loading UI
+├── error.tsx       # Error UI
+└── blog/
+    ├── layout.tsx  # Blog layout
+    ├── page.tsx    # Blog list
+    └── [slug]/
+        └── page.tsx # Post detail
+```
+
+## Server vs Client Components
+
+```tsx
+// Server Component (default)
+async function ServerPost({ slug }: { slug: string }) {
+  const post = await getPost(slug)
+  return <PostContent post={post} />
+}
+
+// Client Component
+'use client'
+function InteractiveButton() {
+  const [count, setCount] = useState(0)
+  return <button onClick={() => setCount(c => c + 1)}>{count}</button>
+}
+```
+
+App Router mở ra nhiều khả năng mới cho việc xây dựng web applications hiệu suất cao!

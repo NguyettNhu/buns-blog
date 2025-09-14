@@ -1,0 +1,58 @@
+---
+title: "Xây dựng Blog với Next.js và MDX"
+date: "2024-01-15"
+excerpt: "Hướng dẫn chi tiết cách xây dựng một blog hiện đại với Next.js, MDX và Tailwind CSS."
+author: "Blog Admin"
+tags: ["nextjs", "mdx", "tailwind", "blog"]
+series: "Next.js Tutorial"
+featured: true
+---
+
+# Xây dựng Blog với Next.js và MDX
+
+Trong bài viết này, chúng ta sẽ tìm hiểu cách xây dựng một blog hiện đại sử dụng Next.js và MDX.
+
+## Tại sao chọn Next.js?
+
+Next.js là một framework React mạnh mẽ với nhiều tính năng tuyệt vời:
+
+- **Server-Side Rendering (SSR)** và **Static Site Generation (SSG)**
+- **App Router** mới với hỗ trợ React Server Components
+- **Tối ưu hóa hiệu suất** tự động
+- **SEO friendly** 
+
+## MDX là gì?
+
+MDX cho phép bạn viết JSX trực tiếp trong Markdown:
+
+```jsx
+import { Button } from '@/components/ui/button'
+
+# Đây là heading
+
+Đây là paragraph với một button React:
+
+<Button>Click me!</Button>
+```
+
+## Code Example
+
+Đây là một ví dụ về React component:
+
+```tsx
+import React from 'react'
+
+interface Props {
+  name: string
+}
+
+const Greeting: React.FC<Props> = ({ name }) => {
+  return <h1>Xin chào, {name}!</h1>
+}
+
+export default Greeting
+```
+
+## Kết luận
+
+Next.js và MDX tạo nên một combo hoàn hảo để xây dựng blog hiện đại, nhanh và SEO-friendly!

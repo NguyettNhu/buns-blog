@@ -1,0 +1,58 @@
+---
+title: "Tailwind CSS - Framework CSS hiện đại"
+date: "2024-01-10"
+excerpt: "Khám phá Tailwind CSS, framework utility-first giúp xây dựng UI nhanh chóng và linh hoạt."
+author: "Blog Admin"
+tags: ["css", "tailwind", "ui", "frontend"]
+featured: false
+---
+
+# Tailwind CSS - Framework CSS hiện đại
+
+Tailwind CSS đã thay đổi cách chúng ta viết CSS với approach utility-first độc đáo.
+
+## Utility-First là gì?
+
+Thay vì viết CSS custom, bạn sử dụng các utility classes có sẵn:
+
+```html
+<div class="flex items-center justify-center h-screen bg-gray-100">
+  <div class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden">
+    <div class="md:flex">
+      <div class="p-8">
+        <div class="uppercase tracking-wide text-sm text-indigo-500 font-semibold">
+          Company retreats
+        </div>
+        <p class="block mt-1 text-lg leading-tight font-medium text-black">
+          Incredible accommodation for your team
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+## Ưu điểm của Tailwind
+
+1. **Nhanh chóng**: Không cần context switching giữa HTML và CSS
+2. **Nhất quán**: Design system được baked-in
+3. **Responsive**: Dễ dàng tạo responsive design
+4. **Customizable**: Hoàn toàn có thể customize
+
+## Responsive Design
+
+```html
+<div class="text-base md:text-lg lg:text-xl xl:text-2xl">
+  Responsive text size
+</div>
+```
+
+## Dark Mode
+
+```html
+<div class="bg-white dark:bg-gray-800 text-black dark:text-white">
+  Content với dark mode support
+</div>
+```
+
+Tailwind CSS giúp developer tập trung vào logic thay vì spend time với CSS!
