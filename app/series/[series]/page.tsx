@@ -20,8 +20,7 @@ export async function generateMetadata({ params }: Props) {
 }
 
 export async function generateStaticParams() {
-  // Để pre-render các series
-  // Có thể import getAllSeries nếu muốn
+  
   return []
 }
 
