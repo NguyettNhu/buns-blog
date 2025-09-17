@@ -5,6 +5,6 @@ export default function robots() {
       allow: '/',
       disallow: '/private/',
     },
-    sitemap: 'https://Bun's Blog.vercel.app/sitemap.xml',
+    sitemap: "https://Bun's Blog.vercel.app/sitemap.xml",
   }
 }

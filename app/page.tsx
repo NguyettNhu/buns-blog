@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Calendar, Clock, User, ArrowRight } from 'lucide-react'
 import { formatDate } from '@/lib/utils'
 
+
 export default async function Home() {
   const featuredPosts = await getFeaturedPosts()
   const allPosts = await getAllPosts()
@@ -28,6 +29,7 @@ export default async function Home() {
         </Link>
       </section>
 
+
       {/* Featured Posts */}
       {featuredPosts.length > 0 && (
         <section className="py-12">
@@ -35,10 +37,10 @@ export default async function Home() {
           <div className="grid gap-6 md:grid-cols-2">
             {featuredPosts.map((post) => (
               <Link key={post.slug} href={`/blog/${post.slug}`}>
-                <Card className="h-full hover:shadow-lg transition-shadow">
+                <Card className="card h-full hover:shadow-lg transition-shadow">
                   <CardHeader>
                     <div className="flex items-center gap-2 mb-2">
-                      <Badge>Nổi bật</Badge>
+                      <Badge className="bg-violet-500 text-violet-200">Nổi bật</Badge>
                       {post.series && (
                         <Badge variant="outline">{post.series}</Badge>
                       )}
@@ -49,23 +51,23 @@ export default async function Home() {
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                    <div className="flex items-center gap-4 text-sm text-muted-foreground ">
                       <div className="flex items-center gap-1">
                         <Calendar className="h-3 w-3" />
                         <time>{formatDate(post.date)}</time>
                       </div>
-                      <div className="flex items-center gap-1">
+                      <div className="flex items-center gap-1 ">
                         <Clock className="h-3 w-3" />
                         <span>{post.readingTime}</span>
                       </div>
-                      <div className="flex items-center gap-1">
+                      <div className="flex items-center gap-1 ">
                         <User className="h-3 w-3" />
                         <span>{post.author}</span>
                       </div>
                     </div>
-                    <div className="flex flex-wrap gap-1 mt-3">
+                    <div className="flex flex-wrap gap-2 mt-3 ">
                       {post.tags.slice(0, 3).map((tag) => (
-                        <Badge key={tag} variant="secondary" className="text-xs">
+                        <Badge key={tag} variant="secondary" className="text-xs  bg-[#850865] rounded-2xl">
                           {tag}
                         </Badge>
                       ))}
@@ -96,7 +98,7 @@ export default async function Home() {
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {recentPosts.map((post) => (
             <Link key={post.slug} href={`/blog/${post.slug}`}>
-              <Card className="h-full hover:shadow-lg transition-shadow">
+              <Card className="card h-full hover:shadow-lg transition-shadow">
                 <CardHeader>
                   <CardTitle className="line-clamp-2">{post.title}</CardTitle>
                   <CardDescription className="line-clamp-3">
@@ -114,9 +116,9 @@ export default async function Home() {
                       <span>{post.readingTime}</span>
                     </div>
                   </div>
-                  <div className="flex flex-wrap gap-1">
+                  <div className="flex flex-wrap gap-2">
                     {post.tags.slice(0, 2).map((tag) => (
-                      <Badge key={tag} variant="secondary" className="text-xs">
+                      <Badge key={tag} variant="secondary" className="text-xs bg-[#850865] rounded-2xl">
                         {tag}
                       </Badge>
                     ))}
